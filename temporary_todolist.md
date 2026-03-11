@@ -6,6 +6,9 @@ benötigte Funktionen:
 menü (coop/ai, einfach/mittel/schwer)	fabienne
   eigabenvalidierung			        quang
 test ob jemand gewonnen hat		        Felix
+	bitte die funktion "wintest" nennen:
+	input: die liste "boardlist"; spieler für welchen getestet werden soll("player1" oder "player2")
+	output: True/false
 einfache ki (random)			        finn???
 mittel ki (50/50 zwischen einf/schwer)	finn?
 schwere ki (min-max-algo)		        finn
