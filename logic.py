@@ -1,4 +1,8 @@
 
+def input_gamestep(bordlist, player):
+    return
+
+
 def wintest(bordlist, player):
     return
 
