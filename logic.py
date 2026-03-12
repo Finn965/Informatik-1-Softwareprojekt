@@ -32,6 +32,51 @@ def input_gamestep(bordlist, player):
     
     return move
 
+    """
+    Fragt den Spielmodus ab:
+    1 = gegen Freund
+    2 = gegen KI
+
+    Wenn KI gewählt wird, wird zusätzlich die Schwierigkeit abgefragt:
+    1 = leicht
+    2 = mittel
+    3 = schwer
+
+    Rückgabe:
+    (mode, difficulty)
+    mode: "friend" oder "ai"
+    difficulty: None, "easy", "medium", "hard"
+    """
+def choose_gamemode():
+    while True:
+        mode = input("Wähle den Spielmodus:\n1 - Gegen Freund\n2 - Gegen KI\nEingabe: ")
+
+        if mode == "1":
+            return "friend", None
+
+        elif mode == "2":
+
+             while True:
+                difficulty = input(
+                    "Wähle die Schwierigkeit:\n"
+                    "1 - Leicht\n"
+                    "2 - Mittel\n"
+                    "3 - Schwer\n"
+                    "Eingabe: "
+                )
+                if difficulty == "1":
+                    return "ai", "easy"
+
+                elif difficulty == "2":
+                    return "ai", "medium"
+
+                elif difficulty == "3":
+                    return "ai", "hard"
+
+                else:
+                    print("Error! Bitte 1, 2 oder 3 eingeben.")
+
+
 
 def wintest(bordlist, player):
     return
