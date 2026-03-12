@@ -76,6 +76,8 @@ def choose_gamemode():
                 else:
                     print("Error! Bitte 1, 2 oder 3 eingeben.")
 
+        else:
+            print("Error! Bitte 1 oder 2 eingeben.")
 
 
 def wintest(bordlist, player):
