@@ -45,46 +45,47 @@ def minmax(bordlist:list, bot_playernumber:str):
 if __name__ == "__main__": #bordliste zum testen im logic.py file
     bordliste = [["X","O","X"],["X","O",5],[6,7,"O"]]
     
-def output(bordlist):
+def output(boardlist):
 
+#definieren der Konstanten der Farben "standard", "rot" und "grün" und der Variable für die Zeile
     ENDC        = "\033[0m"        
     RED         = "\033[91m"
     GREEN       = "\033[92m"
     rowcounter  = 0
 
-    for i in bordlist:
+    for i in boardlist: #for-schleife für die Ausgabe des aktuellen Spielboardes
         for y in i:
-            if y == "X":
-                if rowcounter < 2:
+            if y == "X": #Ausgabe in rot, falls Listenstelle ein "X" enthält
+                if rowcounter < 2: #Ausgabe mit "|", wenn nicht an rechtester Stelle auf dem Board
                     print(f'{RED}{y}{ENDC}', end="")
                     print(" | ", end="")
                     rowcounter += 1
-                else:
+                else: #Ausgabe ohne "|", wenn nicht an rechtester Stelle auf dem Board
                     print(f'{RED}{y}{ENDC}')
                     rowcounter = 0
 
-            elif y == "O":
-                if rowcounter < 2:
+            elif y == "O": #Ausgabe in grün, falls Listenstelle ein "O" enthält
+                if rowcounter < 2:#Ausgabe mit "|", wenn nicht an rechtester Stelle auf dem Board
                     print(f'{GREEN}{y}{ENDC}', end="")
                     print(" | ", end="")
                     rowcounter += 1
-                else:
+                else: #Ausgabe ohne "|", wenn nicht an rechtester Stelle auf dem Board
                     print(f'{GREEN}{y}{ENDC}')
                     rowcounter = 0
 
-            else:
-                if rowcounter < 2:
+            else: #Ausgabe in Standardfarbe, falls Listenstelle weder "X" noch "O" enthält
+                if rowcounter < 2: #Ausgabe mit "|", wenn nicht an rechtester Stelle auf dem Board
                     print(f'{y}', end="")
                     print(" | ", end="")
                     rowcounter += 1
-                else:
+                else: #Ausgabe ohne "|", wenn nicht an rechtester Stelle auf dem Board
                     print(f'{y}')
                     rowcounter = 0
 
-    if wintest(bordlist, "player1") == True:
-          print(bordlist)
+    if wintest(boardlist, "player1") == True: #Outputnachricht, wenn Spieler 1 gewonnen hat
+          print(boardlist)
           print("Spieler 1 hat gewonnen!")
 
-    elif wintest(bordlist, "player2") == True:
-          print(bordlist)
+    elif wintest(boardlist, "player2") == True: #Outputnachricht, wenn Spieler 2 gewonnen hat
+          print(boardlist)
           print("Spieler 2 hat gewonnen!")
