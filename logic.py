@@ -1,4 +1,3 @@
-
 def wintest(bordlist, player): # Funktion, die überprüft, ob ein Spieler gewonnen hat
     symbol = {"player1" : "X","player2" : "O"}  # Dictionary mit der Zuordnung von Symbolen zu den Spielern
     player_symbol = symbol[player]
