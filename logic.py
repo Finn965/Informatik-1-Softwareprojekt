@@ -1,5 +1,23 @@
 
+"""
+    Fragt den Spieler nach einem Zug (0-8),
+    prüft ob die Eingabe gültig ist und das Feld frei ist.
+    boardlist: Liste mit 9 Elementen (['X', 'O' oder ' '])
+    player: aktueller Spieler 'X' oder 'O'
+"""
+
 def input_gamestep(bordlist, player):
+
+    while True:
+        move = input(f"Spieler {player}, wähle ein Feld (0–8): ")
+
+        # Prüfen, ob Eingabe eine Zahl ist
+        if not move.isdigit():
+            print("Error! Ungültige Eingabe! Bitte eine Zahl zwischen 0 und 8 eingeben.")
+            continue
+        move = int(move)
+    
+    
     return
 
 
