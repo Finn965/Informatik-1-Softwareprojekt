@@ -1,6 +1,5 @@
-Bitte mit # markieren wenn etwas erledigt ist.
+Bitte mit ---------- markieren wenn etwas erledigt ist.
 Weitere sachen bitte hinzufügen.
-
 
 benötigte Funktionen:
 menü (coop/ai, einfach/mittel/schwer)	fabienne
@@ -12,23 +11,23 @@ test ob jemand gewonnen hat		        Felix
 einfache ki (random)			        finn???
 mittel ki (50/50 zwischen einf/schwer)	finn?
 schwere ki (min-max-algo)		        finn
-ausgabe					                Marvin
+---------ausgabe					    Marvin
 	
 
 dateiformat:
-0|1|2   
-3|4|5
-6|7|8
+0 | 1 | 2   
+3 | 4 | 5
+6 | 7 | 8
 
-0|X|O
-O|4|X
-6|X|8
+0 | X | O
+O | 4 | X
+6 | X | 8
 
 liste für aktuellen Spielstand = [[0,1,2],[3,4,5],[6,7,8]]
 
-welcher spieler ist dran:
-	spieler1_dran = True
-	bzw: spieler2_dran = True
+-------welcher spieler ist dran:
+	-------spieler1_dran = False
+	------bzw: spieler2_dran = False
 
 X für spieler 1
 O für spieler 2
