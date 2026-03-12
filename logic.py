@@ -16,9 +16,18 @@ def input_gamestep(bordlist, player):
             print("Error! Ungültige Eingabe! Bitte eine Zahl zwischen 0 und 8 eingeben.")
             continue
         move = int(move)
+
+         # Prüfen, ob Zahl im gültigen Bereich liegt
+        if move < 0 or move > 8:
+            print("Error! Ungültige Position! Nur Zahlen zwischen 0 und 8 sind erlaubt.")
+            continue
+
+        # Prüfen, ob das Feld frei ist
+        if board[move] != move:
+            print("Error! Dieses Feld ist bereits belegt! Wähle ein anderes Feld.")
+            continue
     
-    
-    return
+    return move
 
 
 def wintest(bordlist, player):
