@@ -22,8 +22,11 @@ def input_gamestep(bordlist, player):
             print("Error! Ungültige Position! Nur Zahlen zwischen 0 und 8 sind erlaubt.")
             continue
 
+        row = move // 3
+        col = move % 3
+
         # Prüfen, ob das Feld frei ist
-        if board[move] != move:
+        if boardlist[row][col] != move:
             print("Error! Dieses Feld ist bereits belegt! Wähle ein anderes Feld.")
             continue
     
