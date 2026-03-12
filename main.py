@@ -7,7 +7,7 @@
 ##########################################################################################
 
 #creating a list for the game board - output in the terminal
-bordlist = [0, 1, 2], [3, 4, 5], [6, 7, 8]
+boardlist = [0, 1, 2], [3, 4, 5], [6, 7, 8]
 
 # giving variables for the different turns
 Player1_turn = False
