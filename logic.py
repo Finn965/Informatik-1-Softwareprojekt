@@ -1,4 +1,4 @@
-import copy #wird für die Simulationen benötigt, damit das Originalbord nicht verändert wird
+import copy #wird für die simulation_difficult benötigt, damit das Originalbord nicht verändert wird
 
 def wintest(bordlist, player): # Funktion, die überprüft, ob ein Spieler gewonnen hat
     symbol = {"player1" : "X","player2" : "O"}  # Dictionary mit der Zuordnung von Symbolen zu den Spielern
@@ -48,13 +48,14 @@ def simulation_difficult(bordlist:list, bot_playernumber:str): #bot_playernumber
         simulation_bord = copy.deepcopy(bordlist) #kopiert das bord damit es nicht mit dem orginalen bord verlinkt ist  
 
         simulation_bord[x[0]][x[1]] = bot_playersymbol #bord für alle möglichen züge
-        minimax_result = minmax(simulation_bord, bot_playernumber[-1:], True)
+        minimax_result = minmax(simulation_bord, bot_playernumber[-1:], False) #False, da wir ja einmal in der simulation_difficult() manuell einen maxwert herausarbeiten
 
         if minimax_result > best_result: #gibt uns den besten move raus
             best_result = minimax_result
             best_move = bordlist[x[0]][x[1]]
-        print("best_result:", best_result)
-        print("best_move:", best_move)
+        print("minimax_result:", minimax_result)
+      #  print("best_result:", best_result)
+       # print("best_move:", best_move)
         
     return best_move
 
@@ -78,7 +79,7 @@ def minmax(bordlist:list, bot_playernumber:str, maximizingPlayer):
     if maximizingPlayer: #wollen das best mögliche ergebnis
         maxEval = -100000
         for child in possible_move:
-            bordlist[child[0]][child[1]] = symbol["1" if bot_playernumber=="2" else "2"] #spielt simulierten zug / absichtlich den mensch spielen lassen, da wird den menschen maximieren wollen 
+            bordlist[child[0]][child[1]] = symbol[bot_playernumber] #spielt simulierten zug / bot spielen, da wir den maximieren wollen 
             eval = minmax(bordlist, bot_playernumber, False) 
             print("eval max",eval)
             maxEval = max(maxEval, eval) #maximaler wert
@@ -87,8 +88,8 @@ def minmax(bordlist:list, bot_playernumber:str, maximizingPlayer):
     else: # wollen das schlecht möglichste ergebnis
         minEval = +100000
         for child in possible_move:
-            bordlist[child[0]][child[1]] = symbol[bot_playernumber] # hier eingeben was minimiert werden soll 
-            eval = minmax(bordlist, ("1" if bot_playernumber=="2" else "2") , True)
+            bordlist[child[0]][child[1]] = symbol["1" if bot_playernumber=="2" else "2"] # hier eingeben was minimiert werden soll 
+            eval = minmax(bordlist, bot_playernumber , True) #für den zug bestmögliches ergebnis berechnen, wenn alle optimal spielen
             print("eval min",eval)
             minEval = min(minEval, eval) # minimaler wert
             bordlist[child[0]][child[1]] = child[0]*3 + child[1] + 1 #macht den zug rückgängig
@@ -96,9 +97,15 @@ def minmax(bordlist:list, bot_playernumber:str, maximizingPlayer):
 
 
 if __name__ == "__main__": #bordliste zum testen im logic.py file
-    bordliste = [["X", 1 , "O" ],
-                 ["O","O", 5 ],
-                 ["X",7,"X"]]
+    # bordliste = [["X", 1 , "O" ],
+    #              ["O","O", 5 ],
+    #              ["X",7,"X"]]
+    # bordliste = [["X", 1 , 2 ],
+    #              ["X","O", 5 ],
+    #              ["O","X","O"]]
+    bordliste = [["O","O","X" ],
+                 ["X", 4 ,"O" ],
+                 [ 6 , 7, "X"]]
     print(simulation_difficult(bordliste, "player1"))
     
 def output(boardlist):
