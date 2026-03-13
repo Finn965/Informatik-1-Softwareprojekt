@@ -5,7 +5,7 @@ def wintest(bordlist, player): # Funktion, die überprüft, ob ein Spieler gewon
         if bordlist [reihe][0] == player_symbol and bordlist [reihe][1] == player_symbol and bordlist [reihe][2] ==player_symbol:  # Prüfen, ob es drei gleiche in einer Zeile sind
             return True
     for spalte in range (3):
-        if bordlist [spalte][0] == player_symbol and bordlist [spalte][1] == player_symbol and bordlist [spalte][2] == player_symbol: # Prüfen, ob es drei gleiche in einer Spalte sind
+        if bordlist [0][spalte] == player_symbol and bordlist [1][spalte] == player_symbol and bordlist [2][spalte] == player_symbol: # Prüfen, ob es drei gleiche in einer Spalte sind
             return True
     if bordlist [0][0] == player_symbol and  bordlist [1][1] == player_symbol and bordlist [2][2] == player_symbol:       # Prüfe die Diagonale von links oben nach rechts unten
             return True
