@@ -18,6 +18,10 @@ def possible_moves(bordlist):
     return
 
 
+
+def simulation():
+    pass
+
 def minmax(bordlist:list, bot_playernumber:str): 
     "Minimax Algorithmus"
 
@@ -29,8 +33,8 @@ def minmax(bordlist:list, bot_playernumber:str):
     possible_move = possible_moves(bordlist) #brauche hier noch funktion für mögliche züge, bestenfalls in koordinatenform 
 
 
-    won_bot =  wintest(bordlist,bot_playernumber) #brauche hier noch funktion gewonnen oder nicht
-    won_player = wintest(bordlist,"1" if bot_playernumber==2 else "2") #brauche hier noch funktion gewonnen oder nicht
+    won_bot =  wintest(bordlist,"player"+bot_playernumber) 
+    won_player = wintest(bordlist,"player"+("1" if bot_playernumber==2 else "2"))
     if won_bot == True: #verloren
         return 1
     elif won_player == True:#gewonnen
@@ -56,6 +60,7 @@ def minmax(bordlist:list, bot_playernumber:str):
 
 if __name__ == "__main__": #bordliste zum testen im logic.py file
     bordliste = [["X","O","X"],["X","O",5],[6,7,"O"]]
+    print(minmax(bordliste, "1"))
     
 def output(boardlist):
 
