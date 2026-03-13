@@ -1,6 +1,18 @@
+def wintest(bordlist, player): # Funktion, die überprüft, ob ein Spieler gewonnen hat
+    symbol = {"player1" : "X","player2" : "O"}  # Dictionary mit der Zuordnung von Symbolen zu den Spielern
+    player_symbol = symbol[player]
+    for reihe in range (3):
+        if bordlist [reihe][0] == player_symbol and bordlist [reihe][1] == player_symbol and bordlist [reihe][2] ==player_symbol:  # Prüfen, ob es drei gleiche in einer Zeile sind
+            return True
+    for spalte in range (3):
+        if bordlist [0][spalte] == player_symbol and bordlist [1][spalte] == player_symbol and bordlist [2][spalte] == player_symbol: # Prüfen, ob es drei gleiche in einer Spalte sind
+            return True
+    if bordlist [0][0] == player_symbol and  bordlist [1][1] == player_symbol and bordlist [2][2] == player_symbol:       # Prüfe die Diagonale von links oben nach rechts unten
+            return True
+    if bordlist [0][2] == player_symbol and  bordlist [1][1] == player_symbol and bordlist [2][0] == player_symbol:          # Prüfe die Dagonale von rechts oben nach links unten
+            return True
+    return False  
 
-def wintest(bordlist, player):
-    return
 
 def possible_moves(bordlist):
     return
