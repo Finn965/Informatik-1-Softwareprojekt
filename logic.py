@@ -19,9 +19,41 @@ def possible_moves(bordlist):
 
 
 
-def simulation():
+def possible_moves(board):
+    moves = []
+    for i in range(3):
+        for j in range(3):
+            if board[i][j] != "X" and board[i][j] != "O":
+                moves.append((i, j))
+    return moves
+
+def simulation_easy():
+    pass
+def simulation_medium():
     pass
 
+def simulation_difficult(bordlist:list, bot_playernumber:str): #bot_playernumber = player1 or player2
+    "Gibt den best möglichen zug für den aktuellen Spielstand aus"
+    possiblemoves = possible_moves(bordlist)
+    best_result = -2 # kleiner wert zum ersten mal vergleichen 
+    if bot_playernumber=="player1":# anschauen
+        bot_playersymbol = "X"
+    else:
+        bot_playersymbol = "O"
+    
+    for x in possiblemoves: #geht alle möglichen züge durch 
+        
+        simulation_bord = possiblemoves 
+        simulation_bord[x] = bot_playersymbol #bord für alle möglichen züge
+        minimax_result = minmax(simulation_bord, bot_playernumber[:-1])
+
+        if minimax_result > best_result: #gibt uns den besten move raus
+            best_result = minimax_result
+            best_move = x
+        
+    return best_move
+
+#idee: bot maximizing player ist immer true beim ersten mal in simulation_difficult. daraus folgt dass wir am anfang noch definieren müssen als weitere variable in minmax() welche X,O der bot benutzt. gute idee 
 def minmax(bordlist:list, bot_playernumber:str): 
     "Minimax Algorithmus"
 
@@ -45,14 +77,14 @@ def minmax(bordlist:list, bot_playernumber:str):
     if maximizingPlayer: #wollen das best mögliche ergebnis
         maxEval = -100000
         for child in possible_move:
-            bordlist[child[0]][child[1]] = "X" #spielt simulierten zug / kann sein das mit funktion(possible_moves) nicht mehr möglich
+            bordlist[child[0]][child[1]] = "X" #spielt simulierten zug / kann sein das mit funktion(possible_moves) nicht mehr möglich // idee: hier dann variable einfügen was maximiert werden soll
             eval = minmax(bordlist, "2") 
             maxEval = max(maxEval, eval) #maximaler wert
         return maxEval
     else: # wollen das schlecht möglichste ergebnis
         minEval = +100000
         for child in possible_move:
-            bordlist[child[0]][child[1]] = "O"
+            bordlist[child[0]][child[1]] = "O" # hier eingeben was minimiert werden soll 
             eval = minmax(bordlist, "1")
             minEval = min(minEval, eval) # minimaler wert
         return minEval
