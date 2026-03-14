@@ -35,35 +35,33 @@ def simulation_medium():
     pass
 
 def simulation_difficult(bordlist:list, bot_playernumber:str): #bot_playernumber = player1 or player2
-    "Gibt den best möglichen zug für den aktuellen Spielstand aus"
+    """Gibt einen der  best möglichen Züge für das aktuelle Bord aus. 
+    
+    Die Funktion probiert für jedes freie Feld einen Zug aus und wertet den Spielstand
+    mit `minmax` aus. Der Rückgabewert ist der Zug als String"""
     possiblemoves = possible_moves(bordlist)
-    best_result = -2 # kleiner wert zum ersten mal vergleichen 
+    best_result = -2 # Kleiner Startwert, damit jeder echter Minimax-Score besser ist
+    best_move = None
+
     if bot_playernumber=="player1": 
         bot_playersymbol = "X"
     else:
         bot_playersymbol = "O"
     
-    for x in possiblemoves: #geht alle möglichen züge durch 
-        
-        simulation_bord = copy.deepcopy(bordlist) #kopiert das bord damit es nicht mit dem orginalen bord verlinkt ist  
+    for x in possiblemoves: #alle möglichen Züge durchgehen
+        simulation_bord = copy.deepcopy(bordlist) #Kopiert das bord, damit das Originale nicht verändert wird
+        simulation_bord[x[0]][x[1]] = bot_playersymbol #Zug auf dem Simulationsbord setzen
+        minimax_result = minmax(simulation_bord, bot_playernumber[-1:], False) #False, da wir ja einmal in der simulation_difficult() manuell einen maxwert herausgearbeitet haben
 
-        simulation_bord[x[0]][x[1]] = bot_playersymbol #bord für alle möglichen züge
-        minimax_result = minmax(simulation_bord, bot_playernumber[-1:], False) #False, da wir ja einmal in der simulation_difficult() manuell einen maxwert herausarbeiten
-
-        if minimax_result > best_result: #gibt uns den besten move raus
+        if minimax_result > best_result: #beste Bewertung merken
             best_result = minimax_result
             best_move = bordlist[x[0]][x[1]]
-        print("minimax_result:", minimax_result)
-      #  print("best_result:", best_result)
-       # print("best_move:", best_move)
-        
     return best_move
 
 def minmax(bordlist:list, bot_playernumber:str, maximizingPlayer):
-    "Minimax Algorithmus"
+    "mithilfe des Minimax Algorithmus wird der Spielstand bewertet"
     symbol = {"1":"X", "2":"O"}
-
-    possible_move = possible_moves(bordlist) #brauche hier noch funktion für mögliche züge, bestenfalls in koordinatenform 
+    possible_move = possible_moves(bordlist) 
 
     #wintest
     won_bot =  wintest(bordlist,"player"+bot_playernumber) 
@@ -72,40 +70,41 @@ def minmax(bordlist:list, bot_playernumber:str, maximizingPlayer):
         return 1
     elif won_player == True:#gewonnen
         return -1
-    elif len(possible_move) == 0: #unentschieden muss schauen ob möglich mit funktion (possible_moves)
+    elif len(possible_move) == 0: #unentschieden
         return 0 
     
-
     if maximizingPlayer: #wollen das best mögliche ergebnis
         maxEval = -100000
-        for child in possible_move:
-            bordlist[child[0]][child[1]] = symbol[bot_playernumber] #spielt simulierten zug / bot spielen, da wir den maximieren wollen 
+        for child in possible_move: # Für jede mögliche Aktion den Spielstand simulieren
+            bordlist[child[0]][child[1]] = symbol[bot_playernumber] #spielt simulierten zug für bot 
             eval = minmax(bordlist, bot_playernumber, False) 
-            print("eval max",eval)
-            maxEval = max(maxEval, eval) #maximaler wert
-            bordlist[child[0]][child[1]] = child[0]*3 + child[1] + 1 #macht den zug rückgängig
+            maxEval = max(maxEval, eval) 
+            bordlist[child[0]][child[1]] = child[0]*3 + child[1] + 1 #macht den simulierten zug rückgängig
         return maxEval
+    
     else: # wollen das schlecht möglichste ergebnis
         minEval = +100000
         for child in possible_move:
-            bordlist[child[0]][child[1]] = symbol["1" if bot_playernumber=="2" else "2"] # hier eingeben was minimiert werden soll 
-            eval = minmax(bordlist, bot_playernumber , True) #für den zug bestmögliches ergebnis berechnen, wenn alle optimal spielen
-            print("eval min",eval)
-            minEval = min(minEval, eval) # minimaler wert
-            bordlist[child[0]][child[1]] = child[0]*3 + child[1] + 1 #macht den zug rückgängig
+            bordlist[child[0]][child[1]] = symbol["1" if bot_playernumber=="2" else "2"]  
+            eval = minmax(bordlist, bot_playernumber , True)
+            minEval = min(minEval, eval) 
+            bordlist[child[0]][child[1]] = child[0]*3 + child[1] + 1 
         return minEval
 
 
 if __name__ == "__main__": #bordliste zum testen im logic.py file
-    # bordliste = [["X", 1 , "O" ],
+    # bordliste = [["X", 1 ,"O"],
     #              ["O","O", 5 ],
-    #              ["X",7,"X"]]
-    # bordliste = [["X", 1 , 2 ],
-    #              ["X","O", 5 ],
-    #              ["O","X","O"]]
-    bordliste = [["O","O","X" ],
-                 ["X", 4 ,"O" ],
-                 [ 6 , 7, "X"]]
+    #              ["X", 7 ,"X"]]
+    bordliste = [["X", 1 , 2 ],
+                 ["X","O", 5 ],
+                 ["O","X","O"]]
+    # bordliste = [["O","O","X" ],
+    #              ["X", 4 ,"O" ],
+    #              [ 6 , 7, "X"]]
+    # bordliste = [[0,1,2],
+    #              [3,4,5], 
+    #              [6,7,8]]
     print(simulation_difficult(bordliste, "player1"))
     
 def output(boardlist):
