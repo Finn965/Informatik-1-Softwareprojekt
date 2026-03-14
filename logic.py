@@ -26,11 +26,10 @@ def input_gamestep(bordlist, player):
         col = move % 3
 
         # Prüfen, ob das Feld frei ist
-        if boardlist[row][col] != move:
+        if bordlist[row][col] != move:
             print("Error! Dieses Feld ist bereits belegt! Wähle ein anderes Feld.")
             continue
-    
-    return move
+        return move
 
     """
     Fragt den Spielmodus ab:
