@@ -1,4 +1,5 @@
 import copy #wird für die simulation_difficult benötigt, damit das Originalbord nicht verändert wird
+import random #wird für die simulation_easy benötigt, damit ein zufälliger Zug zurückgegeben werden kann
 
 def wintest(bordlist, player): # Funktion, die überprüft, ob ein Spieler gewonnen hat
     symbol = {"player1" : "X","player2" : "O"}  # Dictionary mit der Zuordnung von Symbolen zu den Spielern
@@ -15,10 +16,6 @@ def wintest(bordlist, player): # Funktion, die überprüft, ob ein Spieler gewon
             return True
     return False  
 
-
-
-
-
 def possible_moves(board):
     moves = []
     for i in range(3):
@@ -27,11 +24,20 @@ def possible_moves(board):
                 moves.append((i, j))
     return moves
 
+def simulation_easy(bordlist,playernumber): # Funktion, die einen zufälligen Zug zurückgibt
+    if playernumber == "player1":  # Legt die Spielersymbole fest
+        player_symbol = "X"
+    else:        
+        player_symbol = "O"
+    move = possible_moves(bordlist)            
+    if move:                                #Prüfung, ob es noch mögliche Züge gibt
+         move_set= random.choice(move)      #wählt zufällig einen der möglichen Züge aus.
+         bordlist[move_set[0]][move_set[1]] = player_symbol #setzt den Zug auf dem Bord
+         return bordlist
+    return None
 
-
-def simulation_easy():
-    pass
-def simulation_medium():
+def simulation_medium(): # Funnktion, die zu 50% einen zufälligen Zug zurückgibt und zu 50% den besten Zug zurückgibt
+    
     pass
 
 def simulation_difficult(bordlist:list, bot_playernumber:str): #bot_playernumber = player1 or player2
@@ -90,14 +96,12 @@ def minmax(bordlist:list, bot_playernumber:str, maximizingPlayer):
             minEval = min(minEval, eval) 
             bordlist[child[0]][child[1]] = child[0]*3 + child[1] + 1 
         return minEval
-
-
 if __name__ == "__main__": #bordliste zum testen im logic.py file
     # bordliste = [["X", 1 ,"O"],
     #              ["O","O", 5 ],
     #              ["X", 7 ,"X"]]
-    bordliste = [["X", 1 , 2 ],
-                 ["X","O", 5 ],
+    bordliste = [["X", "X" , "X" ],
+                 [1 ,2 , "X" ],
                  ["O","X","O"]]
     # bordliste = [["O","O","X" ],
     #              ["X", 4 ,"O" ],
