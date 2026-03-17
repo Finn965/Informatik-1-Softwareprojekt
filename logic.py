@@ -1,4 +1,5 @@
 import copy #wird für die simulation_difficult benötigt, damit das Originalbord nicht verändert wird
+import random #wird für die simulation_easy benötigt, damit ein zufälliger Zug zurückgegeben werden kann
 
 def wintest(bordlist, player): # Funktion, die überprüft, ob ein Spieler gewonnen hat
     symbol = {"player1" : "X","player2" : "O"}  # Dictionary mit der Zuordnung von Symbolen zu den Spielern
@@ -15,10 +16,6 @@ def wintest(bordlist, player): # Funktion, die überprüft, ob ein Spieler gewon
             return True
     return False  
 
-
-
-
-
 def possible_moves(board):
     moves = []
     for i in range(3):
@@ -27,12 +24,22 @@ def possible_moves(board):
                 moves.append((i, j))
     return moves
 
+def simulation_easy(bordlist,playernumber): # Funktion, die einen zufälligen Zug zurückgibt
+    move = possible_moves(bordlist)            
+    if move:                                #Prüfung, ob es noch mögliche Züge gibt
+         random_move= random.choice(move)      #wählt zufällig einen der möglichen Züge aus.
+         return bordlist [random_move[0]][random_move[1]]  #gibt den Zug als String zurück
+    return None
 
+def simulation_medium(bordlist, playernumber): # Funnktion, die zu 50% einen zufälligen Zug zurückgibt und zu 50% den besten Zug zurückgibt
+        choice = random.random() # Zufällige Zahl zwischen 0 und 1 generieren
+        if choice < 0.5: # 50% Chance für einen zufälligen Zug
+            return simulation_easy(bordlist, playernumber)
+            
+        else: # 50% Chance für den besten Zug
+            return simulation_difficult(bordlist, playernumber)
 
-def simulation_easy():
-    pass
-def simulation_medium():
-    pass
+            
 
 def simulation_difficult(bordlist:list, bot_playernumber:str): #bot_playernumber = player1 or player2
     """Gibt einen der  best möglichen Züge für das aktuelle Bord aus. 
@@ -90,22 +97,22 @@ def minmax(bordlist:list, bot_playernumber:str, maximizingPlayer):
             minEval = min(minEval, eval) 
             bordlist[child[0]][child[1]] = child[0]*3 + child[1] + 1 
         return minEval
-
-
+    
 if __name__ == "__main__": #bordliste zum testen im logic.py file
     # bordliste = [["X", 1 ,"O"],
     #              ["O","O", 5 ],
     #              ["X", 7 ,"X"]]
-    bordliste = [["X", 1 , 2 ],
-                 ["X","O", 5 ],
-                 ["O","X","O"]]
+    bordliste = [["X",  55 , "X" ],
+                 [ 90 ,  2   ,3 ],
+                 [1 ,  4 ,6]]
     # bordliste = [["O","O","X" ],
     #              ["X", 4 ,"O" ],
     #              [ 6 , 7, "X"]]
     # bordliste = [[0,1,2],
     #              [3,4,5], 
     #              [6,7,8]]
-    print(simulation_difficult(bordliste, "player1"))
+    simulation_easy  (bordliste,"player1")
+    print (bordliste,)
     
 def output(boardlist):
 
