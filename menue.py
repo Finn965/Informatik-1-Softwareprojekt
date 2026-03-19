@@ -48,7 +48,7 @@ def hauptmenue():
 
             if schwierigkeit not in ["1", "2", "3"]:
                 print(f"{ROT}Ungültige Eingabe! Bitte gib 1, 2 oder 3 ein.{RESET}\n")
-                return "ki", None
+
 
         if schwierigkeit == "1":
             print(f"{GRUEN}Du hast den Spielmodus 'KI - Leicht' gewählt! Viel Spaß!{RESET}")
