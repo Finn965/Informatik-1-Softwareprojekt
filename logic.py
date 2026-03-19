@@ -90,10 +90,10 @@ def simulation_easy(bordlist): # Funktion, die einen zufälligen Zug zurückgibt
 
 def simulation_medium(bordlist, playernumber): # Funnktion, die zu 50% einen zufälligen Zug zurückgibt und zu 50% den besten Zug zurückgibt
         choice = random.random() # Zufällige Zahl zwischen 0 und 1 generieren
-        if choice < 0.5: # 50% Chance für einen zufälligen Zug
+        if choice < 0.3: # 30% Chance für einen zufälligen Zug
             return simulation_easy(bordlist)
             
-        else: # 50% Chance für den besten Zug
+        else: # 70% Chance für den besten Zug
             return simulation_difficult(bordlist, playernumber)
 
             
@@ -159,7 +159,7 @@ def minmax(bordlist:list, bot_playernumber:str, maximizingPlayer):
     
 def output(boardlist):
 
-#definieren der Konstanten der Farben "standard", "rot" und "grün" und der Variable für die Zeile
+    #definieren der Konstanten der Farben "standard", "rot" und "grün" und einer Variable für die Zeile
     ENDC        = "\033[0m"        
     RED         = "\033[91m"
     GREEN       = "\033[92m"
