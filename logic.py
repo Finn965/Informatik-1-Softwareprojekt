@@ -12,7 +12,7 @@ import random #wird für die simulation_easy benötigt, damit ein zufälliger Zu
 def input_gamestep(bordlist, player):
 
     while True:
-        move = input(f"Spieler {player}, wähle ein Feld (0–8): ")
+        move = input(f"\nSpieler {player}, wähle ein Feld (0–8): \n")
 
         # Prüfen, ob Eingabe eine Zahl ist
         if not move.isdigit():
@@ -42,9 +42,21 @@ def set_move(bordlist, player, move):  #setzt den Zug auf dem Feld
     return bordlist
 
 def gamestatus(bordlist):
-    if wintest(bordlist, "player1") or wintest(bordlist, "player2"):
+    if wintest(bordlist, "player1"): 
         return 1
+    if wintest(bordlist, "player2"):
+        return 2
     else: return 0
+
+def spielstand(winner,score):
+    if winner == 1:
+      score += 1
+      return  score
+    if winner == 2:
+      score += 1
+      return score
+        
+        
 
 def wintest(bordlist, player): # Funktion, die überprüft, ob ein Spieler gewonnen hat
     symbol = {"player1" : "X","player2" : "O"}  # Dictionary mit der Zuordnung von Symbolen zu den Spielern

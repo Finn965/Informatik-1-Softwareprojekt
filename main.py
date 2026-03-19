@@ -5,7 +5,7 @@
 ##           Play TicTacToe against a bot or in coop against your friends               ##
 ##                                                                                      ##
 ##########################################################################################
-from logic import input_gamestep, wintest, gamestatus, simulation_easy, simulation_medium, simulation_difficult, output, set_move, possible_moves
+from logic import input_gamestep, wintest, gamestatus, spielstand, simulation_easy, simulation_medium, simulation_difficult, output, set_move, possible_moves
 from menue import hauptmenue
 
 
@@ -21,6 +21,8 @@ Player1_turn = False
 
 def main():
     programmläuft = True
+    Spieler1 = 0
+    Spieler2 = 0
     while programmläuft:
         modus, schwierigkeit = hauptmenue() # Hauptmenü aufrufen und Spielmodus sowie Schwierigkeit zurückgeben
         bordlist = [row[:] for row in BORDLIST]
@@ -29,7 +31,7 @@ def main():
         aktuelles_Spiel = True
         unentschieden = False
         while aktuelles_Spiel:   #Spielstart
-            if modus == "ki" and gamestatus(bordlist)!=1: #wenn Spieler gegen KI spielt
+            if modus == "ki" and gamestatus(bordlist)==0: #wenn Spieler gegen KI spielt
                 if Player1_turn and wintest(bordlist,"player2")==False: #Spieler 1 ist dran
                     if possible_moves(bordlist)!= []:
                         move= input_gamestep(bordlist,1) # Spieler 1 macht einen Zug
@@ -42,8 +44,8 @@ def main():
 
 
       
-                elif gamestatus(bordlist)!=1: # Bot macht sein Zug
-                    print("\nZug vom Bot\n")
+                elif gamestatus(bordlist)==0: # Bot macht sein Zug
+                    print("\nZug vom Bot:\n")
                     if schwierigkeit == "leicht":     #Für Schwierigkeitsstufe leicht
                         move = simulation_easy (bordlist)
                         bordlist = set_move(bordlist,"O",move)
@@ -60,8 +62,8 @@ def main():
                         Player1_turn = True
                         output(bordlist)
 
-            if modus == "coop" and gamestatus(bordlist)!=1:
-                if Player1_turn and gamestatus(bordlist)!=1:
+            if modus == "coop" and gamestatus(bordlist)==0:
+                if Player1_turn and gamestatus(bordlist)==0:
                     if possible_moves(bordlist)!=[]:
                         move =input_gamestep(bordlist,1)
                         bordlist = set_move (bordlist,"X",move)
@@ -70,15 +72,25 @@ def main():
                     else: 
                         print("Untentschieden")
                         unentschieden = True
-                if Player1_turn == False and gamestatus(bordlist)!=1:
+                if Player1_turn == False and gamestatus(bordlist)==0:
                     move =input_gamestep(bordlist,2)
                     bordlist = set_move (bordlist,"O",move)
                     Player1_turn = True
                     output(bordlist)
                 
 
-            if gamestatus(bordlist)==1 or unentschieden == True:
+            if gamestatus(bordlist)!=0 or unentschieden == True:
                 aktuelles_Spiel = False
+                print("\nAktueller Spielstand:")
+                if gamestatus(bordlist)==1:
+                    Spieler1 = spielstand (1,Spieler1)
+                elif gamestatus(bordlist)==2:
+                    Spieler2 = spielstand(2,Spieler2)
+                elif unentschieden:
+                    Spieler2+=1
+                    Spieler1+=1
+                print("Spieler 1:", Spieler1)
+                print("Spieler 2:", Spieler2)
                 nochmal = input ("Willst du noch eine Runde spielen? (ja/nein)")
                 if nochmal == "ja":
                     print("Neue Runde startet")
