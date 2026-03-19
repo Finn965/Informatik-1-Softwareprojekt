@@ -34,6 +34,18 @@ def input_gamestep(bordlist, player):
             continue
         return move
 
+def set_move(bordlist, player, move):  #setzt den Zug auf dem Feld
+    for reihe in range(3):
+        for spalte in range(3):
+            if bordlist[reihe][spalte] == move:
+                bordlist[reihe][spalte] = player
+    return bordlist
+
+def gamestatus(bordlist):
+    if wintest(bordlist, "player1") or wintest(bordlist, "player2"):
+        return 1
+    else: return 0
+
 def wintest(bordlist, player): # Funktion, die überprüft, ob ein Spieler gewonnen hat
     symbol = {"player1" : "X","player2" : "O"}  # Dictionary mit der Zuordnung von Symbolen zu den Spielern
     player_symbol = symbol[player]
@@ -57,7 +69,7 @@ def possible_moves(board):
                 moves.append((i, j))
     return moves
 
-def simulation_easy(bordlist,playernumber): # Funktion, die einen zufälligen Zug zurückgibt
+def simulation_easy(bordlist): # Funktion, die einen zufälligen Zug zurückgibt
     move = possible_moves(bordlist)            
     if move:                                #Prüfung, ob es noch mögliche Züge gibt
          random_move= random.choice(move)      #wählt zufällig einen der möglichen Züge aus.
@@ -67,7 +79,7 @@ def simulation_easy(bordlist,playernumber): # Funktion, die einen zufälligen Zu
 def simulation_medium(bordlist, playernumber): # Funnktion, die zu 50% einen zufälligen Zug zurückgibt und zu 50% den besten Zug zurückgibt
         choice = random.random() # Zufällige Zahl zwischen 0 und 1 generieren
         if choice < 0.5: # 50% Chance für einen zufälligen Zug
-            return simulation_easy(bordlist, playernumber)
+            return simulation_easy(bordlist)
             
         else: # 50% Chance für den besten Zug
             return simulation_difficult(bordlist, playernumber)
@@ -131,21 +143,7 @@ def minmax(bordlist:list, bot_playernumber:str, maximizingPlayer):
             bordlist[child[0]][child[1]] = child[0]*3 + child[1] + 1 
         return minEval
     
-if __name__ == "__main__": #bordliste zum testen im logic.py file
-    # bordliste = [["X", 1 ,"O"],
-    #              ["O","O", 5 ],
-    #              ["X", 7 ,"X"]]
-    bordliste = [["X",  55 , "X" ],
-                 [ 90 ,  2   ,3 ],
-                 [1 ,  4 ,6]]
-    # bordliste = [["O","O","X" ],
-    #              ["X", 4 ,"O" ],
-    #              [ 6 , 7, "X"]]
-    # bordliste = [[0,1,2],
-    #              [3,4,5], 
-    #              [6,7,8]]
-    simulation_easy  (bordliste,"player1")
-    print (bordliste,)
+
     
 def output(boardlist):
 
