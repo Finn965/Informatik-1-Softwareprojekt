@@ -1,12 +1,3 @@
-"""
-Autor: Dominik Quang Schulz
-Datum: 13.03.2026
-Kurzbeschreibung:
-Diese Datei enthält die Funktion hauptmenue(), welche die Konsolen-Eingaben für dem Spielmodus und die KI-Schwiewrigkeit abfragt und validiert.
-"""
-
-import os
-
 GRUEN = '\033[92m'
 GELB = '\033[93m'
 ROT = '\033[91m'
@@ -69,14 +60,3 @@ def hauptmenue():
             print(f"{GRUEN}Du hast den Spielmodus 'KI - Schwer' gewählt! Viel Spaß!{RESET}")
             return "ki", "schwer"
         
-        # --- TESTBEREICH ---
-        if __name__ == "__main__":
-            ausgewaehlter_modus, ausgewaehlte_schwierigkeit = hauptmenue()
-            print(f"--- Ergebnis für restliche Team ---")
-            print(f"Variable für Modus: {ausgewaehlter_modus}  ")
-            print(f"Variable für KI:    {ausgewaehlte_schwierigkeit}")
-
-            input("\nDrücke Enter, um das Programm zu beenden...")
-
-if __name__ == "__main__":
-    hauptmenue()
