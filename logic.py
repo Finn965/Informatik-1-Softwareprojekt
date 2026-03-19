@@ -1,6 +1,39 @@
 import copy #wird für die simulation_difficult benötigt, damit das Originalbord nicht verändert wird
 import random #wird für die simulation_easy benötigt, damit ein zufälliger Zug zurückgegeben werden kann
 
+
+"""
+    Fragt den Spieler nach einem Zug (0-8),
+    prüft ob die Eingabe gültig ist und das Feld frei ist.
+    boardlist: Liste mit 9 Elementen (['X', 'O' oder ' '])
+    player: aktueller Spieler 'X' oder 'O'
+"""
+
+def input_gamestep(bordlist, player):
+
+    while True:
+        move = input(f"Spieler {player}, wähle ein Feld (0–8): ")
+
+        # Prüfen, ob Eingabe eine Zahl ist
+        if not move.isdigit():
+            print("Error! Ungültige Eingabe! Bitte eine Zahl zwischen 0 und 8 eingeben.")
+            continue
+        move = int(move)
+
+         # Prüfen, ob Zahl im gültigen Bereich liegt
+        if move < 0 or move > 8:
+            print("Error! Ungültige Position! Nur Zahlen zwischen 0 und 8 sind erlaubt.")
+            continue
+
+        row = move // 3
+        col = move % 3
+
+        # Prüfen, ob das Feld frei ist
+        if bordlist[row][col] != move:
+            print("Error! Dieses Feld ist bereits belegt! Wähle ein anderes Feld.")
+            continue
+        return move
+
 def wintest(bordlist, player): # Funktion, die überprüft, ob ein Spieler gewonnen hat
     symbol = {"player1" : "X","player2" : "O"}  # Dictionary mit der Zuordnung von Symbolen zu den Spielern
     player_symbol = symbol[player]
