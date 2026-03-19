@@ -5,60 +5,60 @@
 ```mermaid
 flowchart TD
     Start([Start])
-    Start --> PrintTitle["Titel & Menü-Rahmen ausgeben"]
+    Start --> PrintTitle["Titel und Menü anzeigen"]
 
-    ModeLoop{"modus in [1,2]?"}
-    ModeLoop -- Nein --> InputMode["input('Eingabe (1 oder 2): ')"]
-    InputMode --> ValidateMode{modus gültig?}
-    ValidateMode -- Nein --> PrintInvalid["Fehler: ungültige Eingabe"]
+    PrintTitle --> ModeLoop{"Ist ein Spielmodus ausgewählt?"}
+    ModeLoop -- Nein --> InputMode["Spieler gibt 1 oder 2 ein"]
+    InputMode --> ValidateMode{"Ist die Eingabe gültig?"}
+    ValidateMode -- Nein --> PrintInvalid["Fehlermeldung anzeigen"]
     PrintInvalid --> ModeLoop
-    ValidateMode -- Ja --> ModeChoice{"modus == 1?"}
+    ValidateMode -- Ja --> ModeChoice{"Co-op oder KI?"}
 
-    ModeChoice -- Ja --> CoOp["return 'coop', None"]
-    ModeChoice -- Nein --> KIStart["Schwierigkeit wählen"]
+    ModeChoice -- Ja --> CoOp["Co-op-Modus starten"]
+    ModeChoice -- Nein --> KIStart["KI-Modus starten"]
 
-    KIStart --> DiffLoop{"schwierigkeit in [1,2,3]?"}
-    DiffLoop -- Nein --> InputDiff["input('Eingabe (1, 2 oder 3): ')"]
-    InputDiff --> ValidateDiff{gültig?}
-    ValidateDiff -- Nein --> PrintInvalidDiff["Fehler: ungültige Eingabe"]
+    KIStart --> DiffLoop{"Ist eine Schwierigkeit ausgewählt?"}
+    DiffLoop -- Nein --> InputDiff["Spieler gibt 1, 2 oder 3 ein"]
+    InputDiff --> ValidateDiff{"Ist die Eingabe gültig?"}
+    ValidateDiff -- Nein --> PrintInvalidDiff["Fehlermeldung anzeigen"]
     PrintInvalidDiff --> DiffLoop
-    ValidateDiff -- Ja --> ChooseDiff{"schwierigkeit == 1?"}
-    ChooseDiff -- Ja --> Easy["return 'ki','leicht'"]
-    ChooseDiff -- Nein --> ChooseDiff2{"schwierigkeit == 2?"}
-    ChooseDiff2 -- Ja --> Medium["return 'ki','mittel'"]
-    ChooseDiff2 -- Nein --> Hard["return 'ki','schwer'"]
+    ValidateDiff -- Ja --> ChooseDiff{"Ist die Schwierigkeit 'Leicht'?"}
+    ChooseDiff -- Ja --> Easy["Schwierigkeit auf 'Leicht' stellen"]
+    ChooseDiff -- Nein --> ChooseDiff2{"Ist die Schwierigkeit 'Mittel'?"}
+    ChooseDiff2 -- Ja --> Medium["Schwierigkeit auf 'Mittel' stellen"]
+    ChooseDiff2 -- Nein --> Hard["Schwierigkeit auf 'Schwer' stellen"]
 ```
 
 ### `main.py` – `main()`
 ```mermaid
 flowchart TD
     Start([Start])
-    Start --> LoopStart["programmläuft = True"]
-    LoopStart --> Menu["modus, schwierigkeit = hauptmenue()"]
-    Menu --> Init["bordlist zurücksetzen + output(bordlist)"]
+    Start --> LoopStart["Programm startet"]
+    LoopStart --> Menu["Menü anzeigen und Einstellungen holen"]
+    Menu --> Init["Spielbrett zurücksetzen & anzeigen"]
 
-    Loop["while aktuelles_Spiel:"]
+    Loop["Spiel läuft"]
     Init --> Loop
 
     subgraph CoOp
         direction TB
-        Loop --> CoOpCheck{"modus == coop und gamestatus == 0?"}
-        CoOpCheck -- Ja --> CoOpMoves["Wechselnde Spielerzüge (input_gamestep + set_move + output)"]
+        Loop --> CoOpCheck{"Ist Co-op ausgewählt?"}
+        CoOpCheck -- Ja --> CoOpMoves["Spieler 1 und 2 wechseln sich ab"]
     end
 
     subgraph KI
         direction TB
-        Loop --> KICheck{"modus == ki und gamestatus == 0?"}
-        KICheck -- Ja --> PlayerTurn{Player1_turn?}
-        PlayerTurn -- Ja --> PlayerMove["input_gamestep + set_move('X') + output"]
-        PlayerTurn -- Nein --> BotMove["KI-Zug (simulation_*(...) + set_move('O') + output)"]
+        Loop --> KICheck{"Ist KI-Modus ausgewählt?"}
+        KICheck -- Ja --> PlayerTurn{"Ist Spieler an der Reihe?"}
+        PlayerTurn -- Ja --> PlayerMove["Spieler macht Zug"]
+        PlayerTurn -- Nein --> BotMove["Computer macht Zug"]
     end
 
-    Loop --> EndCheck{gamestatus != 0 oder unentschieden?}
-    EndCheck -- Ja --> Score["spieler1/2 aktualisieren + ausgeben"]
-    Score --> Replay{nochmal?}
+    Loop --> EndCheck{"Ist das Spiel beendet?"}
+    EndCheck -- Ja --> Score["Punkte aktualisieren & anzeigen"]
+    Score --> Replay{"Möchte man noch eine Runde?"}
     Replay -- ja --> Init
-    Replay -- nein --> End["programmläuft=False"]
+    Replay -- nein --> End["Programm beenden"]
 
     End --> Stop([Ende])
 ```
@@ -67,94 +67,94 @@ flowchart TD
 ```mermaid
 flowchart TD
     Start([Start])
-    Start --> Loop["while True"]
-    Loop --> Prompt["input('Spieler ..., wähle Feld')"]
+    Start --> Loop["Wiederhole bis gültig"]
+    Loop --> Prompt["Spieler wählt ein Feld"]
 
-    Prompt --> IsDigit{"move.isdigit()?"}
-    IsDigit -- Nein --> ErrNotDigit["Fehler ausgeben"]
+    Prompt --> IsDigit{"Eingabe ist eine Zahl?"}
+    IsDigit -- Nein --> ErrNotDigit["Fehler: Bitte Zahl eingeben"]
     ErrNotDigit --> Loop
 
-    IsDigit -- Ja --> ToInt["move = int(move)"]
-    ToInt --> InRange{0 <= move <= 8?}
-    InRange -- Nein --> ErrRange["Fehler ausgeben"]
+    IsDigit -- Ja --> ToInt["Zahl übernehmen"]
+    ToInt --> InRange{"Zahl zwischen 0 und 8?"}
+    InRange -- Nein --> ErrRange["Fehler: Zahl ungültig"]
     ErrRange --> Loop
 
-    InRange -- Ja --> CalcRC["row = move // 3, col = move % 3"]
-    CalcRC --> FreeCheck{feld frei?}
-    FreeCheck -- Nein --> ErrTaken["Fehler ausgeben"]
+    InRange -- Ja --> CalcRC["Feldposition berechnen"]
+    CalcRC --> FreeCheck{"Ist das Feld noch frei?"}
+    FreeCheck -- Nein --> ErrTaken["Fehler: Feld bereits belegt"]
     ErrTaken --> Loop
 
-    FreeCheck -- Ja --> Return["return move"]
+    FreeCheck -- Ja --> Return["Feld zurückgeben"]
 ```
 
 ### `logic.py` – `set_move()`
 ```mermaid
 flowchart TD
     Start([Start])
-    Start --> ForRow["for reihe in range(3)"]
-    ForRow --> ForCol["for spalte in range(3)"]
-    ForCol --> Match{"bordlist[reihe][spalte] == move?"}
-    Match -- Ja --> Set["bordlist[reihe][spalte] = player"]
+    Start --> ForRow["Jede Zeile prüfen"]
+    ForRow --> ForCol["Jede Spalte prüfen"]
+    ForCol --> Match{"Ist dies das gewählte Feld?"}
+    Match -- Ja --> Set["Feld belegen"]
     Match -- Nein --> Skip
     Set --> Skip
-    Skip --> LoopEnd["Ende der Schleifen"]
-    LoopEnd --> Return["return bordlist"]
+    Skip --> LoopEnd["Alle Felder geprüft"]
+    LoopEnd --> Return["Aktualisiertes Spielbrett zurückgeben"]
 ```
 
 ### `logic.py` – `gamestatus()`
 ```mermaid
 flowchart TD
     Start([Start])
-    Start --> Win1["wintest(bordlist,'player1')"]
-    Win1 -- Ja --> Return1["return 1"]
-    Win1 -- Nein --> Win2["wintest(bordlist,'player2')"]
-    Win2 -- Ja --> Return2["return 2"]
-    Win2 -- Nein --> Return0["return 0"]
+    Start --> Win1["Prüfe: hat Spieler 1 gewonnen?"]
+    Win1 -- Ja --> Return1["Rückgabe: Spieler 1 gewinnt"]
+    Win1 -- Nein --> Win2["Prüfe: hat Spieler 2 gewonnen?"]
+    Win2 -- Ja --> Return2["Rückgabe: Spieler 2 gewinnt"]
+    Win2 -- Nein --> Return0["Rückgabe: kein Gewinner"]
 ```
 
 ### `logic.py` – `spielstand()`
 ```mermaid
 flowchart TD
     Start([Start])
-    Start --> Check1{"winner == 1?"}
-    Check1 -- Ja --> Inc1["score += 1"]
-    Inc1 --> Return1["return score"]
-    Check1 -- Nein --> Check2{"winner == 2?"}
-    Check2 -- Ja --> Inc2["score += 1"]
-    Inc2 --> Return2["return score"]
-    Check2 -- Nein --> ReturnNone["return None"]
+    Start --> Check1{"Hat Spieler 1 gewonnen?"}
+    Check1 -- Ja --> Inc1["Punkt für Spieler 1"]
+    Inc1 --> Return1["Punktestand zurückgeben"]
+    Check1 -- Nein --> Check2{"Hat Spieler 2 gewonnen?"}
+    Check2 -- Ja --> Inc2["Punkt für Spieler 2"]
+    Inc2 --> Return2["Punktestand zurückgeben"]
+    Check2 -- Nein --> ReturnNone["Punktestand unverändert"]
 ```
 
 ### `logic.py` – `wintest()`
 ```mermaid
 flowchart TD
     Start([Start])
-    Start --> Map["Symbol = {'player1':'X','player2':'O'}"]
-    Map --> Rows["Zeilen prüfen"]
+    Start --> Map["Symbole für Spieler setzen"]
+    Map --> Rows["Reihen prüfen"]
     Rows --> Cols["Spalten prüfen"]
-    Cols --> Diag1["Diagonal 1 prüfen"]
-    Diag1 --> Diag2["Diagonal 2 prüfen"]
-    Diag2 --> ReturnFalse["return False"]
+    Cols --> Diag1["Diagonale 1 prüfen"]
+    Diag1 --> Diag2["Diagonale 2 prüfen"]
+    Diag2 --> ReturnFalse["Kein Gewinner"]
 
     subgraph RowCheck
         direction TB
-        Rows --> RowLoop["for reihe in range(3)"]
-        RowLoop --> RowCond{alle 3 gleich?}
-        RowCond -- Ja --> ReturnTrue["return True"]
+        Rows --> RowLoop["Jede Reihe prüfen"]
+        RowLoop --> RowCond{"Sind drei Felder gleich?"}
+        RowCond -- Ja --> ReturnTrue["Gewinner gefunden"]
     end
 
     subgraph ColCheck
         direction TB
-        Cols --> ColLoop["for spalte in range(3)"]
-        ColLoop --> ColCond{alle 3 gleich?}
+        Cols --> ColLoop["Jede Spalte prüfen"]
+        ColLoop --> ColCond{"Sind drei Felder gleich?"}
         ColCond -- Ja --> ReturnTrue
     end
 
     subgraph DiagCheck
         direction TB
-        Diag1 --> Diag1Cond{alle 3 gleich?}
+        Diag1 --> Diag1Cond{"Sind drei Felder gleich?"}
         Diag1Cond -- Ja --> ReturnTrue
-        Diag1Cond -- Nein --> Diag2Cond{alle 3 gleich?}
+        Diag1Cond -- Nein --> Diag2Cond{"Sind drei Felder gleich?"}
         Diag2Cond -- Ja --> ReturnTrue
     end
 ```
@@ -163,92 +163,92 @@ flowchart TD
 ```mermaid
 flowchart TD
     Start([Start])
-    Start --> Init["moves = []"]
-    Init --> ForI["for i in range(3)"]
-    ForI --> ForJ["for j in range(3)"]
-    ForJ --> Check{"board[i][j] nicht X/O?"}
-    Check -- Ja --> Add["moves.append((i,j))"]
+    Start --> Init["Liste möglicher Züge anlegen"]
+    Init --> ForI["Jede Zeile prüfen"]
+    ForI --> ForJ["Jede Spalte prüfen"]
+    ForJ --> Check{"Ist Feld frei?"}
+    Check -- Ja --> Add["Feld zur Liste hinzufügen"]
     Add --> Continue
     Check -- Nein --> Continue
-    Continue --> EndLoops["Ende der Schleifen"]
-    EndLoops --> Return["return moves"]
+    Continue --> EndLoops["Alle Felder geprüft"]
+    EndLoops --> Return["Liste möglicher Züge zurückgeben"]
 ```
 
 ### `logic.py` – `simulation_easy()`
 ```mermaid
 flowchart TD
     Start([Start])
-    Start --> Moves["move = possible_moves(bordlist)"]
-    Moves --> HasMoves{"move != []?"}
-    HasMoves -- Ja --> Choose["random.choice(move)"]
-    Choose --> Return["return bordlist[random_move[0]][random_move[1]]"]
-    HasMoves -- Nein --> ReturnNone["return None"]
+    Start --> Moves["Freie Felder ermitteln"]
+    Moves --> HasMoves{"Gibt es freie Felder?"}
+    HasMoves -- Ja --> Choose["Zufälliges Feld wählen"]
+    Choose --> Return["Gewählten Zug zurückgeben"]
+    HasMoves -- Nein --> ReturnNone["Kein Zug möglich"]
 ```
 
 ### `logic.py` – `simulation_medium()`
 ```mermaid
 flowchart TD
     Start([Start])
-    Start --> Rand["choice = random.random()"]
-    Rand --> Branch{choice < 0.5?}
-    Branch -- Ja --> Easy["return simulation_easy(bordlist)"]
-    Branch -- Nein --> Hard["return simulation_difficult(bordlist, playernumber)"]
+    Start --> Rand["Zufall entscheiden lassen"]
+    Rand --> Branch{"Zufall entscheidet?"}
+    Branch -- Ja --> Easy["Einfachen Zug wählen"]
+    Branch -- Nein --> Hard["Besseren Zug wählen"]
 ```
 
 ### `logic.py` – `simulation_difficult()`
 ```mermaid
 flowchart TD
     Start([Start])
-    Start --> Moves["possiblemoves = possible_moves(bordlist)"]
-    Moves --> Init["best_result=-2, best_move=None"]
-    Init --> Symbol["bot_playersymbol bestimmen"]
-    Symbol --> Loop["für jedes x in possiblemoves"]
-    Loop --> Copy["simulation_bord = deepcopy(bordlist)"]
-    Copy --> Put["simulation_bord[x] = bot_playersymbol"]
-    Put --> Eval["minimax_result = minmax(...)"]
-    Eval --> Compare{> best_result?}
-    Compare -- Ja --> Update["best_result=..., best_move=... "]
-    Compare --> Next["nächster Zug"]
+    Start --> Moves["Freie Felder ermitteln"]
+    Moves --> Init["Besten Zug initialisieren"]
+    Init --> Symbol["Symbol des Computers setzen"]
+    Symbol --> Loop["Für jedes freie Feld"]
+    Loop --> Copy["Spielfeld kopieren"]
+    Copy --> Put["Zug auf Kopie setzen"]
+    Put --> Eval["Zug bewerten"]
+    Eval --> Compare{"Besser als bisher?"}
+    Compare -- Ja --> Update["Besten Zug merken"]
+    Compare --> Next["Weiter mit nächstem Feld"]
     Next --> Loop
-    Loop --> Return["return best_move"]
+    Loop --> Return["Besten Zug zurückgeben"]
 ```
 
 ### `logic.py` – `minmax()`
 ```mermaid
 flowchart TD
     Start([Start])
-    Start --> Moves["possible_move = possible_moves(bordlist)"]
-    Moves --> WinBot["won_bot = wintest(...)"]
-    WinBot --> WinPlayer["won_player = wintest(...)"]
-    WinPlayer --> CheckWin{won_bot oder won_player?}
-    CheckWin -- won_bot --> ReturnLose["return 1"]
-    CheckWin -- won_player --> ReturnWin["return -1"]
-    CheckWin -- none --> Tie{"len(possible_move)==0?"}
-    Tie -- Ja --> ReturnTie["return 0"]
-    Tie -- Nein --> MaxCheck{maximizingPlayer?}
+    Start --> Moves["Mögliche Züge ermitteln"]
+    Moves --> WinBot["Prüfen: gewinnt der Computer?" ]
+    WinBot --> WinPlayer["Prüfen: gewinnt der Spieler?"]
+    WinPlayer --> CheckWin{"Hat jemand gewonnen?"}
+    CheckWin -- won_bot --> ReturnLose["Bewertung: Verlust"]
+    CheckWin -- won_player --> ReturnWin["Bewertung: Sieg"]
+    CheckWin -- none --> Tie{"Unentschieden?"}
+    Tie -- Ja --> ReturnTie["Bewertung: unentschieden"]
+    Tie -- Nein --> MaxCheck{"Maximiere oder minimiere?"}
 
     subgraph MaxBranch
         direction TB
-        MaxCheck -- Ja --> MaxInit["maxEval=-100000"]
-        MaxInit --> MaxLoop["für jeden child in possible_move"]
-        MaxLoop --> Apply["bordlist[child]=symbol[bot] "]
-        Apply --> Recurse["eval=minmax(..., False)"]
-        Recurse --> UpdateMax["maxEval=max(maxEval, eval)"]
-        UpdateMax --> Undo["bordlist[child]=original"]
+        MaxCheck -- Ja --> MaxInit["Maximieren initialisieren"]
+        MaxInit --> MaxLoop["Jeden möglichen Zug durchgehen"]
+        MaxLoop --> Apply["Zug anwenden"]
+        Apply --> Recurse["Rekursiv bewerten (Minimieren)"]
+        Recurse --> UpdateMax["Beste Bewertung merken"]
+        UpdateMax --> Undo["Zug rückgängig machen"]
         Undo --> MaxLoop
-        MaxLoop --> ReturnMax["return maxEval"]
+        MaxLoop --> ReturnMax["Beste Bewertung zurückgeben"]
     end
 
     subgraph MinBranch
         direction TB
-        MaxCheck -- Nein --> MinInit["minEval=+100000"]
-        MinInit --> MinLoop["für jeden child in possible_move"]
-        MinLoop --> Apply2["bordlist[child]=symbol(opponent)"]
-        Apply2 --> Recurse2["eval=minmax(..., True)"]
-        Recurse2 --> UpdateMin["minEval=min(minEval, eval)"]
-        UpdateMin --> Undo2["bordlist[child]=original"]
+        MaxCheck -- Nein --> MinInit["Minimieren initialisieren"]
+        MinInit --> MinLoop["Jeden möglichen Zug durchgehen"]
+        MinLoop --> Apply2["Zug des Gegners anwenden"]
+        Apply2 --> Recurse2["Rekursiv bewerten (Maximieren)"]
+        Recurse2 --> UpdateMin["Schlechteste Bewertung merken"]
+        UpdateMin --> Undo2["Zug rückgängig machen"]
         Undo2 --> MinLoop
-        MinLoop --> ReturnMin["return minEval"]
+        MinLoop --> ReturnMin["Schlechteste Bewertung zurückgeben"]
     end
 ```
 
@@ -256,23 +256,23 @@ flowchart TD
 ```mermaid
 flowchart TD
     Start([Start])
-    Start --> Init["Farben & rowcounter initialisieren"]
-    Init --> RowLoop["für i in boardlist"]
-    RowLoop --> CellLoop["für y in i"]
-    CellLoop --> CheckX{"y == X?"}
-    CheckX -- Ja --> PrintX["rot ausgeben + Separator"]
+    Start --> Init["Farben und Position initialisieren"]
+    Init --> RowLoop["Jede Zeile ausgeben"]
+    RowLoop --> CellLoop["Jede Zelle ausgeben"]
+    CellLoop --> CheckX{"Ist das Feld X?"}
+    CheckX -- Ja --> PrintX["X in Farbe ausgeben"]
     PrintX --> NextCell
-    CheckX -- Nein --> CheckO{"y == O?"}
-    CheckO -- Ja --> PrintO["grün ausgeben + Separator"]
+    CheckX -- Nein --> CheckO{"Ist das Feld O?"}
+    CheckO -- Ja --> PrintO["O in Farbe ausgeben"]
     PrintO --> NextCell
-    CheckO -- Nein --> PrintEmpty["Standardfarbe ausgeben + Separator"]
+    CheckO -- Nein --> PrintEmpty["Leerfeld ausgeben"]
     PrintEmpty --> NextCell
     NextCell --> ContinueCells
-    ContinueCells --> EndRows["Ende aller Zellen"]
+    ContinueCells --> EndRows["Alle Felder ausgegeben"]
 
-    EndRows --> Win1{"wintest(...,player1)?"}
-    Win1 -- Ja --> PrintWin1["'Spieler 1 hat gewonnen!' ausgeben"]
-    Win1 -- Nein --> Win2{"wintest(...,player2)?"}
-    Win2 -- Ja --> PrintWin2["'Spieler 2 hat gewonnen!' ausgeben"]
+    EndRows --> Win1{"Hat Spieler 1 gewonnen?"}
+    Win1 -- Ja --> PrintWin1["Gewinnmeldung für Spieler 1"]
+    Win1 -- Nein --> Win2{"Hat Spieler 2 gewonnen?"}
+    Win2 -- Ja --> PrintWin2["Gewinnmeldung für Spieler 2"]
 ```
 ```
