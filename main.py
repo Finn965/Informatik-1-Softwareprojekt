@@ -62,22 +62,22 @@ def main():
                         Player1_turn = True
                         output(bordlist)
 
-            if modus == "coop" and gamestatus(bordlist)==0:
-                if Player1_turn and gamestatus(bordlist)==0:
-                    if possible_moves(bordlist)!=[]:
+            if modus == "coop" and gamestatus(bordlist)==0:# Coop- Funktion
+                if possible_moves(bordlist)!=[]:      # für unentschieden
+                    if Player1_turn and gamestatus(bordlist)==0: # Spieler 1 am Zug
                         move =input_gamestep(bordlist,1)
                         bordlist = set_move (bordlist,"X",move)
                         Player1_turn = False
                         output(bordlist)
-                    else: 
-                        print("Untentschieden")
-                        unentschieden = True
-                if Player1_turn == False and gamestatus(bordlist)==0:
-                    move =input_gamestep(bordlist,2)
-                    bordlist = set_move (bordlist,"O",move)
-                    Player1_turn = True
-                    output(bordlist)
-                
+                        
+                    elif Player1_turn == False and gamestatus(bordlist)==0: # Spieler 2 am Zug
+                        move =input_gamestep(bordlist,2)
+                        bordlist = set_move (bordlist,"O",move)
+                        Player1_turn = True
+                        output(bordlist)
+                else: 
+                    print("Untentschieden")
+                    unentschieden = True
 
             if gamestatus(bordlist)!=0 or unentschieden == True:
                 aktuelles_Spiel = False
@@ -91,12 +91,17 @@ def main():
                     Spieler1+=1
                 print("Spieler 1:", Spieler1)
                 print("Spieler 2:", Spieler2)
-                nochmal = input ("Willst du noch eine Runde spielen? (ja/nein)")
-                if nochmal == "ja":
-                    print("Neue Runde startet")
-                elif nochmal == "nein":
-                    print("Programm beendet")
-                    programmläuft = False
+                while True:
+                    nochmal = input ("Willst du noch eine Runde spielen? (ja/nein)")
+                    if nochmal == "ja":
+                        print("Neue Runde startet")
+                        break
+                    elif nochmal == "nein":
+                        print("Programm beendet")
+                        programmläuft = False
+                        break
+                    else: 
+                        print ("Ungültige Eingabe. Bitte gib ja ode nein ein.")
 
                         
 
