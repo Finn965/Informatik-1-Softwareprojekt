@@ -11,7 +11,7 @@ menü (coop/ai, einfach/mittel/schwer)	fabienne
 	output: True/false
 -------------einfache ki (random)		Felix
 -------------mittel ki (50/50 zwischen einf/schwer)	Felix
-schwere ki (min-max-algo)		        finn
+-------------schwere ki (min-max-algo)		        finn
 ---------ausgabe					    Marvin
 	
 
@@ -38,16 +38,16 @@ O für spieler 2
 
 
 Todo:
-Flowchart 		
+-------------Flowchart 		
  aufteilen, je nachdem wer was gemacht hat
  pdf oder picture
  müssen Programm auswählen:
 	papdesigner
 	yEd
 	uml(text)
-Testcases		
+-------------Testcases		
  mind. 5 Testfälle: Input → erwartetes Ergebnis → tatsächliches Ergebnis
-Readme
+-------------Readme
  Kurzbeschreibung
  pyhton Version
  beispielhafte Nutzung
