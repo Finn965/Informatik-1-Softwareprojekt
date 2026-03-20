@@ -32,7 +32,7 @@ Dieses Programm ist ein **Tic-Tac-Toe-Spiel für das Terminal**, das in Python g
 
 ## Python-Version
 
-Version: 3.12.1
+Version: 3.14.2
 
 ## Beispielhafte Nutzung
 
