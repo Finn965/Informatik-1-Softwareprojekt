@@ -1,0 +1,44 @@
+Im Folgenden sind Testcases für das TicTacToe-Programm aufgeführt:
+
+TC-001:
+
+ Beschreibung: Spiel im coop-modus, Spieler 1 gewinnt, keine weitere Runde.
+ Eingaben: 1, 0, 2, 4, 6, 8, nein
+ Erwartetes Ergebnis: coop-modus startet und Spieler 1 gewinnt mit Kreuzen in den Feldern 0, 4 und 8
+ Ergebnis: Erwartetete Funktion erfüllt
+
+TC-002:
+
+ Beschreibung: Spiel im coop-modus, Spieler 2 gewinnt, weitere Runde wird gespielt, die unentschieden endet.
+ Eingaben: 1, 2, 0, 4, 6, 8, 3, ja, 1, 4, 5, 6, 7, ,8 ,0, 1, 2, nein
+ Erwartetes Ergebnis: coop-modus startet und Spieler 2 gewinnt mit O in Feldern 0, 3, 6. Das Programm startet erneut und
+                      es wird unentschieden gespielt mit Endpunktestand 1:2. Das Programm beendet.
+ Ergebnis: Erwartetete Funktion erfüllt
+
+TC-003:
+
+ Beschreibung: Spiel im KI-Modus gegen den einfachen Bot.
+ Eingaben: 2, 1, 0, 6, 3, nein
+ Erwartetes Ergebnis: Spiel gegen KI startet und Bot spielt zufällige Züge.
+ Ergebnis: Erwartetete Funktion erfüllt
+
+TC-004:
+
+ Beschreibung: Spiel im KI-Modus gegen den mittleren Bot.
+ Eingaben: 2, 2, 8, 0, 5, 2, nein
+ Erwartetes Ergebnis: Spiel gegen KI startet und Bot spielt entweder zufälligen oder besten Zug.
+ Ergebnis: Erwartetete Funktion erfüllt
+
+TC-005:
+
+ Beschreibung: Spiel im KI-Modus gegen den schweren Bot.
+ Eingaben: 2, 3, 0, 8, 7, 2, 3, nein 
+ Erwartetes Ergebnis: Spiel gegen KI startet und Bot spielt immer den besten Zug.
+ Ergebnis: Erwartetete Funktion erfüllt
+
+TC-006:
+
+ Beschreibung: DAU startet das Programm und vertippt sich bei allem.
+ Eigaben: 7, 2, 6, 3, 9, hallo, 0, 8, 7, 2, 3, was mache ich hier, Ja, Nein, nein
+ Erwartetes Ergebnis: Passende Fehlermeldungen und Hinweis auf richtige Eingaben.
+ Ergebnis: Erwartetete Funktion erfüllt
